@@ -1,0 +1,6 @@
+.terraform/
+terraform-log*
+*.tfplan
+.idea
+terraform.tfstate
+terraform.tfstate.backup
