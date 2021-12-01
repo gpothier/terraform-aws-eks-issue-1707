@@ -22,11 +22,6 @@ variable "subnet_prefix_extension" {
   description = "CIDR block offset to be applied over VPC block for creating subnets"
 }
 
-variable "nat_gateway_instance_types" {
-  type        = list(string)
-  description = "EC2 instance types to be used as NAT Gateways"
-}
-
 variable "autoscaling_azs" {
   type        = number
   description = "Number of zones in which to deploye the main cluster"
