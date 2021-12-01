@@ -16,16 +16,6 @@ variable "name_prefix" {
   description = "Prefix to name each resource to be created"
 }
 
-variable "iac_repo_tag" {
-  type        = string
-  description = "Repository name (as AWS tag) on each resource to be created"
-}
-
-variable "iac_environment_tag" {
-  type        = string
-  description = "Environment name (as AWS tag) on each resource to be created"
-}
-
 variable "main_network_block" {
   type        = string
   description = "CIDR block for the VPC"
@@ -39,21 +29,6 @@ variable "subnet_prefix_extension" {
 variable "nat_gateway_instance_types" {
   type        = list(string)
   description = "EC2 instance types to be used as NAT Gateways"
-}
-
-variable "admin_users" {
-  type        = list(string)
-  description = "List of EKS administrator users"
-}
-
-variable "developer_users" {
-  type        = list(string)
-  description = "List of EKS developer users"
-}
-
-variable "developer_roles" {
-  type        = list(map(list(string)))
-  description = "List of developer users EKS roles"
 }
 
 variable "asg_instance_types" {
@@ -84,11 +59,6 @@ variable "autoscaling_k8s_service_account_name" {
 variable "eks_cluster_version" {
   type        = string
   description = "Kubernetes version for EKS clusters"
-}
-
-variable "cluster_autoscaler_chart_version" {
-  type        = string
-  description = "Helm chart version for the cluster autoscaler"
 }
 
 variable "app_namespaces" {

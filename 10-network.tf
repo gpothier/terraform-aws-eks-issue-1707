@@ -16,8 +16,6 @@ resource "aws_vpc" "main_network" {
 
   tags = {
     Name                                          = "${var.name_prefix}-main-network"
-    iac_repo                                      = var.iac_repo_tag
-    iac_environment                               = var.iac_environment_tag
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
   }
 }
@@ -34,8 +32,6 @@ resource "aws_subnet" "private_subnets" {
 
   tags = {
     Name                              = "${var.name_prefix}-private-${local.availability_zones[count.index]}"
-    iac_repo                          = var.iac_repo_tag
-    iac_environment                   = var.iac_environment_tag
     "kubernetes.io/role/internal-elb" = "1"
 
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
@@ -51,8 +47,6 @@ resource "aws_subnet" "public_subnets" {
 
   tags = {
     Name                     = "${var.name_prefix}-public-${local.availability_zones[count.index]}"
-    iac_repo                 = var.iac_repo_tag
-    iac_environment          = var.iac_environment_tag
     "kubernetes.io/role/elb" = "1"
 
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
@@ -65,8 +59,6 @@ resource "aws_internet_gateway" "internet_gateway" {
 
   tags = {
     Name            = "${var.name_prefix}-igw"
-    iac_repo        = var.iac_repo_tag
-    iac_environment = var.iac_environment_tag
   }
 }
 
@@ -129,8 +121,6 @@ resource "aws_security_group" "nat_gateway_sg" {
 
   tags = {
     Name            = "${var.name_prefix}-nat-gateway-sg"
-    iac_repo        = var.iac_repo_tag
-    iac_environment = var.iac_environment_tag
   }
 }
 
@@ -142,8 +132,6 @@ resource "aws_network_interface" "nat_gateway_nic" {
 
   tags = {
     Name            = "${var.name_prefix}-nat-gateway-nic-${local.availability_zones[count.index]}"
-    iac_repo        = var.iac_repo_tag
-    iac_environment = var.iac_environment_tag
   }
 }
 
@@ -153,8 +141,6 @@ resource "aws_eip" "nat_gateway_nic_eip" {
 
   tags = {
     Name            = "${var.name_prefix}-nat-gateway-eip-${local.availability_zones[count.index]}"
-    iac_repo        = var.iac_repo_tag
-    iac_environment = var.iac_environment_tag
   }
 }
 
@@ -176,8 +162,6 @@ resource "aws_launch_template" "nat_gateway_template" {
 
   tags = {
     Name            = "${var.name_prefix}-nat-gateway-template-${local.availability_zones[count.index]}"
-    iac_repo        = var.iac_repo_tag
-    iac_environment = var.iac_environment_tag
   }
 }
 
@@ -222,18 +206,6 @@ resource "aws_autoscaling_group" "nat_gateway" {
     propagate_at_launch = true
   }
 
-  tag {
-    key                 = "iac_repo"
-    value               = var.iac_repo_tag
-    propagate_at_launch = true
-  }
-
-  tag {
-    key                 = "iac_environment"
-    value               = var.iac_environment_tag
-    propagate_at_launch = true
-  }
-
   lifecycle {
     create_before_destroy = true
   }
@@ -243,12 +215,6 @@ resource "aws_autoscaling_group" "nat_gateway" {
 resource "aws_route_table" "private_route_table" {
   count  = length(local.availability_zones)
   vpc_id = aws_vpc.main_network.id
-
-  tags = {
-    Name            = "${var.name_prefix}-private-route-table-${local.availability_zones[count.index]}"
-    iac_repo        = var.iac_repo_tag
-    iac_environment = var.iac_environment_tag
-  }
 }
 
 # associate route tables with private subnets

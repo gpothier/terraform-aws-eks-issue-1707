@@ -12,12 +12,8 @@ module "main_cluster" {
 
   providers = {
     kubernetes.eks = kubernetes
-    helm.eks       = helm
     aws            = aws
   }
-
-  iac_repo_tag        = var.iac_repo_tag
-  iac_environment_tag = var.iac_environment_tag
 
   cluster_version = var.eks_cluster_version
 
@@ -25,9 +21,6 @@ module "main_cluster" {
 
   aws_vpc_id        = aws_vpc.main_network.id
   aws_subnet_groups = [for subnet in local.cluster_subnets[*].id : [subnet]]
-
-  admin_users     = var.admin_users
-  developer_users = var.developer_users
 }
 
 # get EKS authentication for being able to manage k8s objects from terraform
@@ -36,12 +29,3 @@ provider "kubernetes" {
   cluster_ca_certificate = module.main_cluster.kubernetes_cluster_ca_certificate
   token                  = module.main_cluster.kubernetes_token
 }
-
-provider "helm" {
-  kubernetes {
-    host                   = module.main_cluster.kubernetes_host
-    cluster_ca_certificate = module.main_cluster.kubernetes_cluster_ca_certificate
-    token                  = module.main_cluster.kubernetes_token
-  }
-}
-
