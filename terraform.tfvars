@@ -15,10 +15,6 @@ eks_cluster_version           = "1.21"
 
 ### MAIN EKS CLUSTER ###
 autoscaling_azs                      = 2
-autoscaling_minimum_size_by_az       = 1
-autoscaling_maximum_size_by_az       = 10
-asg_instance_types                   = ["t3.medium", "t3.small"]
-autoscaling_k8s_service_account_name = "cluster-autoscaler-aws-cluster-autoscaler"
 ###################
 
 

@@ -27,29 +27,9 @@ variable "nat_gateway_instance_types" {
   description = "EC2 instance types to be used as NAT Gateways"
 }
 
-variable "asg_instance_types" {
-  type        = list(string)
-  description = "EC2 instance types to be used as EKS Nodes"
-}
-
 variable "autoscaling_azs" {
   type        = number
   description = "Number of zones in which to deploye the main cluster"
-}
-
-variable "autoscaling_minimum_size_by_az" {
-  type        = number
-  description = "Minimum number of EC2 instances behind each EKS AZ"
-}
-
-variable "autoscaling_maximum_size_by_az" {
-  type        = number
-  description = "Maximum number of EC2 instances behind each EKS AZ"
-}
-
-variable "autoscaling_k8s_service_account_name" {
-  type        = string
-  description = "Name of the K8s service account in charge of scaling the cluster"
 }
 
 variable "eks_cluster_version" {
