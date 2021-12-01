@@ -5,27 +5,30 @@ locals {
   cluster_subnets = slice(aws_subnet.private_subnets, 0, var.autoscaling_azs)
 }
 
+module "eks_cluster" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "17.24.0"
 
-# Set up EKS cluster
-module "main_cluster" {
-  source = "./modules/autoscaled-eks"
+  cluster_name     = local.cluster_name
+  cluster_version  = var.eks_cluster_version
+  write_kubeconfig = false
+  enable_irsa      = true
 
-  providers = {
-    kubernetes.eks = kubernetes
-    aws            = aws
-  }
+  vpc_id  = aws_vpc.main_network.id
+  subnets = local.cluster_subnets[*].id
+}
 
-  cluster_version = var.eks_cluster_version
+data "aws_eks_cluster" "cluster" {
+  name = module.eks_cluster.cluster_id
+}
 
-  cluster_name = local.cluster_name
-
-  aws_vpc_id        = aws_vpc.main_network.id
-  aws_subnet_groups = [for subnet in local.cluster_subnets[*].id : [subnet]]
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks_cluster.cluster_id
 }
 
 # get EKS authentication for being able to manage k8s objects from terraform
 provider "kubernetes" {
-  host                   = module.main_cluster.kubernetes_host
-  cluster_ca_certificate = module.main_cluster.kubernetes_cluster_ca_certificate
-  token                  = module.main_cluster.kubernetes_token
+  host                   = data.aws_eks_cluster.cluster.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  token                  = data.aws_eks_cluster_auth.cluster.token
 }
