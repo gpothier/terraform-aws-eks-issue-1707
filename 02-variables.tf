@@ -2,10 +2,6 @@ data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}
 
-locals {
-  namespaces = concat(var.app_namespaces, [var.ci_namespace])
-}
-
 variable "vpc_azs" {
   type        = string
   description = "Number of availability zones to set up in the VPC"
@@ -60,15 +56,3 @@ variable "eks_cluster_version" {
   type        = string
   description = "Kubernetes version for EKS clusters"
 }
-
-variable "app_namespaces" {
-  type        = list(string)
-  description = "List of Kubernetes namespaces for which a CouchDB server must be created"
-}
-
-variable "ci_namespace" {
-  type        = string
-  description = "Namespace for CI runners"
-  default     = "ci"
-}
-

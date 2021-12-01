@@ -21,10 +21,5 @@ asg_instance_types                   = ["t3.medium", "t3.small"]
 autoscaling_k8s_service_account_name = "cluster-autoscaler-aws-cluster-autoscaler"
 ###################
 
-### DEPLOYMENTS ###
-app_namespaces = [
-  "develop"
-]
-###################
 
 
