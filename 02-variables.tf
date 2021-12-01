@@ -31,11 +31,6 @@ variable "main_network_block" {
   description = "CIDR block for the VPC"
 }
 
-variable "dummy_network_block" {
-  type        = string
-  description = "CIDR block for the dummy subnet"
-}
-
 variable "subnet_prefix_extension" {
   type        = number
   description = "CIDR block offset to be applied over VPC block for creating subnets"
@@ -94,47 +89,6 @@ variable "eks_cluster_version" {
 variable "cluster_autoscaler_chart_version" {
   type        = string
   description = "Helm chart version for the cluster autoscaler"
-}
-
-# Spot termination handler
-variable "spot_termination_handler_chart_name" {
-  type        = string
-  description = "Spot Termination Handler helm chart name"
-}
-
-variable "spot_termination_handler_chart_repo" {
-  type        = string
-  description = "Spot Termination Handler helm chart repo name"
-}
-
-variable "spot_termination_handler_chart_version" {
-  type        = string
-  description = "Spot Termination Handler helm chart version"
-}
-
-variable "spot_termination_handler_chart_namespace" {
-  type        = string
-  description = "Kubernetes namespace to install Spot Termination Handler"
-}
-
-variable "ingress_gateway_chart_name" {
-  type        = string
-  description = "Ingress Gateway helm chart name"
-}
-
-variable "ingress_gateway_chart_repo" {
-  type        = string
-  description = "Ingress Gateway helm chart repo name"
-}
-
-variable "ingress_gateway_chart_version" {
-  type        = string
-  description = "Ingress Gateway helm chart version"
-}
-
-variable "ingress_gateway_annotations" {
-  type        = map(string)
-  description = "Ingress Gateway required annotations for EKS"
 }
 
 variable "app_namespaces" {
