@@ -5,7 +5,7 @@
 ```bash
 export AWS_PROFILE=terraform-issue-1707
 export AWS_DEFAULT_REGION=us-west-2
-export TF_BIN=terraform-1.0.11
+export TF_BIN=terraform-1.1.3
 
 ${TF_BIN} init 
 ${TF_BIN} validate
