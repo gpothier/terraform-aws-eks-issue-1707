@@ -7,15 +7,14 @@ locals {
 
 module "eks_cluster" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "17.24.0"
+  version = "18.0.1"
 
   cluster_name     = local.cluster_name
   cluster_version  = var.eks_cluster_version
-  write_kubeconfig = false
   enable_irsa      = true
 
   vpc_id  = aws_vpc.main_network.id
-  subnets = local.cluster_subnets[*].id
+  subnet_ids = local.cluster_subnets[*].id
 }
 
 data "aws_eks_cluster" "cluster" {
